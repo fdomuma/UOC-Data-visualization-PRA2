@@ -4,12 +4,10 @@ library(stringr)
 
 # Load the data
 
-artworks <- read.csv("PRA 1/Artworks.csv", header = TRUE, sep = ",", encoding = "UTF-8")
+artworks <- read.csv("Artworks.csv", header = TRUE, sep = ",", encoding = "UTF-8", stringsAsFactors = FALSE)
 
 
 # Manage gender
-View(table(artworks$Gender))
-
 artists.female <- grep("(Female)", artworks$Gender)
 artists.male <- grep("(Male)", artworks$Gender)
 
@@ -49,8 +47,25 @@ artworks$genderCleaned[maleArtists] <- "Male"
 artworks$genderCleaned[unknownGender] <- "Unknown"
 
 
-
-
 artworks <- artworks[,-8]
 
+# First export
 write.csv(artworks, "Artworks_clean.csv", row.names = FALSE, col.names = TRUE)
+
+
+# Fixing dates
+
+artworks$Date <- str_extract(artworks$Date, "[0-9]{4}")
+artworks$Date[is.na(artworks$Date)] <- 0
+
+
+
+
+
+
+
+
+
+
+
+
